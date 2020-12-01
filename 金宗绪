@@ -1,0 +1,277 @@
+import pymysql
+for i in range(40):
+    if i != 20:
+        print('*',end='')
+    else:
+        print('选项',end='')
+c=0
+print('*')
+print('***                                     ***')
+print('***      欢迎使用ATM提款服务               ***')
+print('***    1: 注册        2：登录             ***')
+print('***    3: 存款        4：取款             ***')
+print('***    5:修改密码      6：显示余额          ***')
+print('***    7：显示账户信息  8：注销             ***')
+print('***    9:安全退出      0：关于帮助          ***')
+print('***                                     ***')
+print('*'*44)
+while True:
+    chose=int(input("请选择您需要的服务："))
+#注册程序
+    if chose == 1:
+        while True:
+            Name = input("请输入用户名：")
+            if Name >= u'\u4e00' and Name <= u'\u9fa5':
+                break
+            else:
+                print("请输入中文字符！")
+        while True:
+            Pw = input("请输入密码：")
+            if Pw.isdigit() == False :
+                print("密码不符合规则！请输入数字密码！")
+            else:
+                break
+        while True:
+            Sex = input("请输入您的性别：")
+            if Sex >= u'\u4e00' and Sex <= u'\u9fa5':
+                break
+            else:
+                print("请输入中文字符！")
+        while True:
+            Age = input("请输入您的年龄：")
+            if Age.isdigit() == False :
+                print("请输入数字！")
+            else:
+                break
+        while True:
+            Adress = input("请输入您的地址：")
+            balanc1 = 0
+            if Adress >= u'\u4e00' and Adress <= u'\u9fa5':
+                break
+            else:
+                print("请输入中文字符！")
+
+        conn = pymysql.connect(
+            host='localhost',
+            user='root',
+            password="123456",
+            db='db2',
+            port=3306,
+            charset='utf8',
+            autocommit=True,
+        )
+        cursor = conn.cursor()
+        sql1='insert into t4(name,pw,sex,age,adress,balanc) values("%s","%s","%s","%s","%s","%s");'%(Name,Pw,Sex,Age,Adress,balanc1)
+
+        try:
+            cursor.execute(sql1)
+        except Exception as e:
+            conn.rollback()
+            print("该用户名已存在！")
+        else:
+            print("注册成功！")
+#登录程序
+    if chose == 2 and c != 1:
+        while True:
+            conn = pymysql.connect(
+                host='localhost',
+                user='root',
+                password="123456",
+                db='db2',
+                port=3306,
+                charset='utf8',
+                autocommit=True,
+             )
+            Name = str(input("请输入用户名："))
+            Pw = int(input("请输入密码："))
+            res = [Name]
+            sql2='select pw from t4 where name=%s;'
+            cursor2 = conn.cursor()
+            cursor2.execute(sql2, res)
+            psw = str(cursor2.fetchone())
+            if psw == ():#fetchall会在查找的值不存在时返回（）# print("用户不存在！")
+                print("账户不存在！请重新输入。")
+            if psw[0][0] != ():
+                if str(psw) != "(%s,)"%(Pw):
+                    print("用户密码输入错误！")
+                if str(psw) == "(%s,)"%(Pw):
+                    print("登录成功！")
+                    c=1
+                    uname=Name
+                    upw=Pw
+                    break
+            conn.commit()
+            cursor2.close()
+            conn.close()
+
+
+#存款程序
+    if chose == 3:
+        if c == 0:
+            print("请先登录！")
+        if c == 1:
+            balance = 0
+            conn = pymysql.connect(
+                host='localhost',
+                user='root',
+                password="123456",
+                db='db2',
+                port=3306,
+                charset='utf8',
+                autocommit=True,
+            )
+            add=int(input("请输入您存储的金额为:"))
+            cursor3 = conn.cursor()
+            sql3='select balanc from t4 where name=%s;'
+            res=uname
+            cursor3.execute(sql3, res)
+            psw1 = cursor3.fetchall()
+            for (row,) in psw1:
+                balance = row + add
+            sql4 = "update t4 set balanc='{x}' where name = '{y}'".format(x=balance,y=uname)
+            cursor3.execute(sql4)
+            print("存款成功！")
+            conn.commit()
+            cursor3.close()
+            conn.close()
+#取款程序
+    if chose == 4:
+        if c==0:
+            print("请先登录！")
+        if c==1:
+            balance2 = 0
+            conn = pymysql.connect(
+                host='localhost',
+                user='root',
+                password="123456",
+                db='db2',
+                port=3306,
+                charset='utf8',
+                autocommit=True,
+            )
+            reduce = int(input("请输入您取款的金额为:"))
+            cursor4 = conn.cursor()
+            sql4 = 'select balanc from t4 where name=%s;'
+            res = uname
+            cursor4.execute(sql4, res)
+            psw2 = cursor4.fetchall()
+            for (row,) in psw2:
+                balance2 = row - reduce
+            if balance2 >= 0:
+                sql5 = "update t4 set balanc='{x}' where name = '{y}'".format(x=balance2, y=uname)
+                cursor4.execute(sql5)
+                print("取款成功！")
+            if balance2 < 0:
+                print("您的余额不足！")
+                conn.commit()
+                cursor4.close()
+                conn.close()
+#修改密码
+    if chose == 5:
+        conn = pymysql.connect(
+            host='localhost',
+            user='root',
+            password="123456",
+            db='db2',
+            port=3306,
+            charset='utf8',
+            autocommit=True,
+        )
+        newpw=input("请输入您的新密码：")
+        cursor6 = conn.cursor()
+        sql6 = "update t4 set pw='{x}' where name = '{y}'".format(x=newpw, y=uname)
+        cursor6.execute(sql6)
+        print("修改成功！")
+
+        conn.commit()
+        cursor6.close()
+        conn.close()
+
+
+
+
+#余额查询
+    if chose == 6:
+        if c == 0:
+            print("请先登录！")
+        if c == 1:
+            conn = pymysql.connect(
+                host='localhost',
+                user='root',
+                password="123456",
+                db='db2',
+                port=3306,
+                charset='utf8',
+                autocommit=True,
+            )
+            cursor3 = conn.cursor()
+            sql3 = 'select balanc from t4 where name=%s;'
+            res = uname
+            cursor3.execute(sql3, res)
+            psw1 = cursor3.fetchall()
+            for (row,) in psw1:
+                print("您的余额为：%s"%(row))
+
+            conn.commit()
+            cursor3.close()
+            conn.close()
+
+#显示账户信息:
+    if chose == 7:
+        conn = pymysql.connect(
+            host='localhost',
+            user='root',
+            password="123456",
+            db='db2',
+            port=3306,
+            charset='utf8',
+            autocommit=True,
+        )
+        cursor7 = conn.cursor()
+        sql9 = 'select name from t4 where name=%s;'
+        res = uname
+        cursor7.execute(sql9, res)
+        psw9 = cursor7.fetchall()
+        for (row,) in psw9:
+            print("用户名：%s" % (row))
+        sql3 = 'select pw from t4 where name=%s;'
+        cursor7.execute(sql3, res)
+        psw1 = cursor7.fetchall()
+        for (row,) in psw1:
+            print("密码：%s" % (row))
+        sql4 = 'select sex from t4 where name=%s;'
+        cursor7.execute(sql4, res)
+        psw2 = cursor7.fetchall()
+        for (row,) in psw2:
+            print("性别：%s" % (row))
+        sql5 = 'select age from t4 where name=%s;'
+        cursor7.execute(sql5, res)
+        psw3 = cursor7.fetchall()
+        for (row,) in psw3:
+            print("年龄：%s" % (row))
+        sql6 = 'select adress from t4 where name=%s;'
+        cursor7.execute(sql6, res)
+        psw4 = cursor7.fetchall()
+        for (row,) in psw4:
+            print("地址：%s" % (row))
+
+
+        conn.commit()
+        cursor7.close()
+        conn.close()
+#注销
+    if chose == 8:
+        if c == 0:
+            print("您还未登录！")
+        if c == 1:
+            c=0
+#安全退出
+    if chose == 9:
+        break
+
+    if chose == 0:
+        print("   关于本软件",
+              "欢迎使用ATM系统",
+              "作者：金宗绪",
+              "年级：２０２０大数据４班",
+              "我什么也帮不了你．．．")
