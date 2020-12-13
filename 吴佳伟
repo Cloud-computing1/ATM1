@@ -1,0 +1,207 @@
+Account = []
+def home_page():
+    print("欢迎使用ATM提款服务系统")
+    print("""
+            1:注册          2:登录
+            3:存款          4:取款
+            5:修改密码      6:显示余额
+            7:显示账号信息  8:注销
+            9;安全退出      0:关于帮助
+          """)
+def judge1():
+    while 1:
+        home_page()
+        judge_1 = input("选择:")
+        if judge_1 == "1":
+            name()
+            new_account()
+            judge1()
+        elif judge_1 == "2":
+            user_login()
+        elif judge_1 == '3':
+            sum = int(input('请输入你的存款金额：'))
+            total = sum + Account[i]['Balance']
+            dict2 = {'Balance':total}
+            Account[i].update(dict2)
+            print('恭喜您存款成功，您的存款金额为：%d,账户余额为：%d' % (sum,total))
+            input('>>按确定键继续为您服务<<')
+        elif judge_1 == "4":
+            sum = int(input('请输入你的取款金额：'))
+            if Account[i]['Balance']-sum >= 0:
+                balance = Account[i]['Balance'] - sum
+                dict1 = {'Balance':balance}
+                Account[i].update(dict1)
+                print('恭喜您取款成功，取款金额为：%d，账户余额为：%d' % (sum,balance))
+                input('>>按确定键继续为您服务<<')
+        elif judge_1 == "5":
+            rep_password()
+            input('>>按确定键继续为您服务<<')
+        elif judge_1 == "6":
+            print("您的余额为: %0.2f" % Account[i]['Balance'])
+            input('>>按确定键继续为您服务<<')
+        elif judge_1 == "7":
+            print("您的个人信息为")
+            print("".join(list1_username))
+            print("".join(list3_sex))
+            print("".join(list4_old))
+            print("".join(list5_dizhi))
+            input('>>按确定键继续为您服务<<')
+        elif judge_1 == "8":
+            zhuxiao()
+            input('>>按确定键继续为您服务<<')
+        elif judge_1 == "9":
+            print("已安全退出！")
+            exit()
+        elif judge_1 == "0":
+            print("""
+                             关于本软件
+                        欢迎使用ATM机模拟系统
+                        本软件使用python程序代码写成
+                        作者:吴佳伟
+                        年级:2020级大数据2班
+                """)
+            input('>>按确定键继续为您服务<<')
+        else:
+            print("错误选项")
+            input('>>按确定键继续为您服务<<')
+def name():
+    global username
+    global password
+    global list1_username
+    global list2_password
+    global list3_sex
+    global list4_old
+    global list5_dizhi
+    list1_username = []
+    list2_password = []
+    list3_sex = []
+    list4_old = []
+    list5_dizhi = []
+    for j in range(len(Account)):
+        all_username = Account[j]['Name']
+        list1_username.append(all_username)
+        all_password = Account[j]['Password']
+        list2_password.append(all_password)
+        all_sex = Account[j]['sex']
+        list3_sex.append(all_sex)
+        all_old = Account[j]['old']
+        list4_old.append(all_old)
+        all_dizhi = Account[j]['dizhi']
+        list5_dizhi.append(all_dizhi)
+def new_account():
+    while 1:
+        while 1:
+            new_username = input("姓名:")
+            if new_username in list1_username:
+                print('用户名已存在，请重新输入！')
+            elif new_username == '':
+                print('用户名不能为空，请重新输入！')
+            else:
+                new_user = {'Name': new_username}
+                Account.append(new_user)
+                break
+        while 1:
+            new1_password = input("密码:")
+            if new1_password == "":
+                print('密码不能为空，请重新输入！')
+            if len(new1_password) == 6 and new1_password.isdigit():
+                new_user['Password'] = new1_password
+                break
+            elif len(new1_password) != 6:
+                print('密码长度不正确，请重新输入！')
+            elif len(new1_password) == 6 or new1_password.isdigit():
+                print('密码不是纯数字密码，请重新输入')
+        while 1:
+            sex = input("性别:")
+            if sex == "男" or sex == "女":
+                new_user['sex'] = sex
+                break
+            else:
+                print("性别不符合规则!请输入正确性别")
+        while 1:
+            old = input("年龄:")
+            if len(old) <= 2 and old.isdigit():
+                new_user['old'] = old
+                break
+            else:
+                print("年龄不符合规则!请输入正确年龄:")
+        while 1:
+            dizhi = input("地址:")
+            if dizhi >= u'\u4e00' and dizhi <= u'\u9fa5':
+                new_user['dizhi'] = dizhi
+                break
+            else:
+                print("地址不符合规则!请输入汉字地址")
+        select = input('是否需要预存金额，需要请输入“1”后按确认键：')
+        if select == '1':
+            new_balance = int(input('请输入您预存金额：'))
+            new_user['Balance']= new_balance
+            print('预存款成功！存款金额为：%d' % new_balance)
+            input('>>按确定键返回主菜单<<')
+            break
+        else:
+            input('>>按确定键返回主菜单<<')
+        break
+            
+def user_login():
+    k = 3
+    while k:
+        global i
+        name()
+        username = input('请输入您的用户名：')
+        password = input('请输入6位用户密码：')
+        for i in range(len(Account)):
+            if username in list1_username and password in list2_password:
+                if username == Account[i]['Name']:
+                    if password == Account[i]['Password']:
+                        judge1()
+                        break
+                    else:
+                        print('用户名和密码不匹配，请重新输入！')
+            elif username == '' and password == '':
+                print('用户名和密码不能为空，请重新输入!')
+                break
+            elif username not in list1_username or password not in list2_password:
+                k -= 1
+                if k == 1:
+                    print('用户名或密码输入错误已达2次，再次输入错误将返回主菜单！')
+                    break
+                elif k == 0:
+                    print('用户名或密码输入错误已达3次，系统自动返回主菜单！')
+                    input('>>按确定键返回主菜单<<')
+                    judge1()
+                print('用户名或密码输入错误，请重新输入！')
+                break
+def rep_password():
+    while 1:
+            new_password1 = input('请输入6位新密码：')
+            new_password2 = input('请再次输入6位新密码：')
+            if new_password1 == '' and new_password2 == '':
+                print('密码不能为空，请重新输入!')
+                continue
+            elif new_password1 == new_password2 and (len(new_password2) ==6 and new_password2.isdigit()):
+                dict2 ={'Password':new_password2}
+                Account[i].update(dict2)
+                print('恭喜您，密码修改成功！')
+                break
+            elif new_password1 == new_password2 and (len(new_password2) !=6 or new_password2.isdigit()):
+                print('密码长度输入错误，请输入6位有效数字密码！')
+                continue
+            elif new_password1 == new_password2 and (len(new_password2) ==6 or new_password2.isdigit()):
+                print('密码应为纯数字密码，请输入6位有效数字密码！')
+                continue
+            elif new_password1 != new_password2:
+                print('两次输入的密码不一致，请重新输入！')
+                continue
+    else:
+        print('请输入有效数字，谢谢！')
+def zhuxiao():
+    del list1_username
+    del list2_password
+    del list3_sex
+    del list4_old
+    del list5_dizhi
+    print("注销成功")
+    user_login()
+while 1:
+    judge1()
