@@ -1,0 +1,184 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package bankDome;
+
+public class ATMmain {
+    public ATMmain() {
+    }
+
+    public static void main(String[] args) {
+        ATMtest atm = new ATMtest();
+        atm.Select();
+    }
+}
+
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package bankDome;
+
+public class ATMbean {
+    private String username = "张三";
+    private String gender = "男";
+    private String age = "23";
+    private String brither = "1997-6-17";
+    private String tel = "123456789";
+    private String address = "陕西";
+    private String id = "123";
+    private String password = "123";
+    private String idcard = "123";
+    private double money = 5000.0D;
+
+    public ATMbean(String username, String gender, String age, String brither, String tel, String address, String id, String password, String idcard, double money) {
+        this.username = username;
+        this.gender = gender;
+        this.age = age;
+        this.brither = brither;
+        this.tel = tel;
+        this.address = address;
+        this.id = id;
+        this.password = password;
+        this.idcard = idcard;
+        this.money = money;
+    }
+
+    public ATMbean() {
+    }
+
+    public ATMbean(String usename, String password, double money) {
+        this.username = usename;
+        this.password = password;
+        this.money = money;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getAge() {
+        return this.age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getBrither() {
+        return this.brither;
+    }
+
+    public void setBrither(String brither) {
+        this.brither = brither;
+    }
+
+    public String getTel() {
+        return this.tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getIdcard() {
+        return this.idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard;
+    }
+
+    public double getMoney() {
+        return this.money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public String toString() {
+        return "ATMbean [username=" + this.username + ", gender=" + this.gender + ", age=" + this.age + ", brither=" + this.brither + ", tel=" + this.tel + ", address=" + this.address + ", id=" + this.id + ", password=" + this.password + ", idcard=" + this.idcard + ", money=" + this.money + "]";
+    }
+}
+
+
+
+
+
+// IntelliJ API Decompiler stub source generated from a class file
+  // Implementation of methods is not available
+
+package bankDome;
+
+public class ATMtest {
+    bankDome.ATMbean atm;
+    java.util.Scanner s;
+    int i;
+
+    public ATMtest() { /* compiled code */ }
+
+    public void Select() { /* compiled code */ }
+
+    public void denglu() { /* compiled code */ }
+
+    public void zhuce() { /* compiled code */ }
+
+    public void xianshi() { /* compiled code */ }
+
+    public void getMoney() { /* compiled code */ }
+
+    public void saveMoney() { /* compiled code */ }
+
+    public void selectMoney() { /* compiled code */ }
+
+    public void zhuanzhangMoney() { /* compiled code */ }
+
+    public void updateMoney() { /* compiled code */ }
+}
+
+
+
+
+
+
+
